@@ -29,7 +29,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  cors: ['*'],
+  cors: ['*','null'],
   collections: [Users, Media , Posts],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
