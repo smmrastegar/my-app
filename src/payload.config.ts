@@ -30,7 +30,6 @@ export default buildConfig({
     },
   },
   cors: ['*'],
-  csrf: false,          // یا [] تا غیرفعال شود
   collections: [Users, Media , Posts],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
