@@ -10,7 +10,7 @@ import { r2Storage } from '@payloadcms/storage-r2'
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-import { Posts } from './collections/Media'
+import { Posts } from './collections/Posts'
 
 
 const filename = fileURLToPath(import.meta.url)
