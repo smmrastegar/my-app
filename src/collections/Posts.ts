@@ -1,30 +1,31 @@
-// ./collections/Posts.ts
 import type { CollectionConfig } from 'payload'
+import dayjs from 'dayjs'
+import jalaliday from 'jalaliday'
+dayjs.extend(jalaliday)
 
 export const Posts: CollectionConfig = {
   slug: 'posts',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'status', 'publishedAt', 'updatedAt'],
-    description: 'Simple blog posts',
+    group: 'محتوا',
   },
   access: {
-    read: () => true,                 // همه بتوانند پست‌ها را بخوانند
-    create: ({ req }) => !!req.user,  // ساخت/ویرایش فقط برای لاگین‌شده‌ها
+    read: () => true, // همه بتوانند بخوانند
+    create: ({ req }) => !!req.user,
     update: ({ req }) => !!req.user,
     delete: ({ req }) => !!req.user,
   },
   fields: [
-    {
-      name: 'title',
-      type: 'text',
-      required: true,
-    },
+    { name: 'title', type: 'text', required: true, label: 'عنوان' },
+
+    // اسلاگ خودکار
     {
       name: 'slug',
       type: 'text',
       unique: true,
-      admin: { description: 'optional; leave empty to auto-generate' },
+      label: 'اسلاگ',
+      admin: { description: 'اگر خالی بگذاری از روی عنوان ساخته می‌شود' },
       hooks: {
         beforeValidate: [
           ({ data }) => {
@@ -34,7 +35,7 @@ export const Posts: CollectionConfig = {
             const s = String(src)
               .toLowerCase()
               .normalize('NFKD')
-              .replace(/[^\w\s-]/g, '')
+              .replace(/[^\w\s-آ-یءۀؤأإ]/g, '') // اجازه حروف فارسی
               .trim()
               .replace(/\s+/g, '-')
               .replace(/-+/g, '-')
@@ -43,24 +44,50 @@ export const Posts: CollectionConfig = {
         ],
       },
     },
+
+    { name: 'excerpt', type: 'textarea', label: 'خلاصه (کوتاه برای کارت)' },
+
+    // تصویر شاخص
+    { name: 'heroImage', type: 'upload', relationTo: 'media', label: 'تصویر شاخص' },
+
+    // گالری چندعکسی
+    {
+      name: 'gallery',
+      type: 'array',
+      label: 'گالری تصاویر',
+      fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true }],
+    },
+
+    // متن بلند (Lexical)
+    { name: 'body', type: 'richText', label: 'متن پست' },
+
+    // دسته و تگ (اختیاری)
+    { name: 'categories', type: 'relationship', relationTo: 'categories', hasMany: true, label: 'دسته‌ها', admin: { position: 'sidebar' } },
+    { name: 'tags', type: 'text', hasMany: true, label: 'تگ‌ها', admin: { position: 'sidebar' } },
+
+    // وضعیت و تاریخ انتشار
     {
       name: 'status',
       type: 'select',
+      label: 'وضعیت',
       defaultValue: 'draft',
       options: [
-        { label: 'Draft', value: 'draft' },
-        { label: 'Published', value: 'published' },
+        { label: 'پیش‌نویس', value: 'draft' },
+        { label: 'منتشر شده', value: 'published' },
       ],
       required: true,
+      admin: { position: 'sidebar' },
     },
     {
       name: 'publishedAt',
       type: 'date',
+      label: 'تاریخ انتشار (میلادی ذخیره می‌شود)',
       admin: { position: 'sidebar' },
       hooks: {
         beforeValidate: [
           ({ data }) => {
             if (!data) return data
+            // اگر منتشر می‌شود و تاریخ خالی‌ست، الان را بگذار
             if (data.status === 'published' && !data.publishedAt) {
               return { ...data, publishedAt: new Date().toISOString() }
             }
@@ -69,22 +96,24 @@ export const Posts: CollectionConfig = {
         ],
       },
     },
+
+    // فیلد مجازی فقط برای نمایش شمسی در ادمین (readOnly)
     {
-      name: 'heroImage',
-      type: 'upload',
-      relationTo: 'media', // از کالکشن Media شما استفاده می‌کند (slug باید 'media' باشد)
-      admin: { description: 'Optional featured image' },
-    },
-    {
-      name: 'body',
-      type: 'richText', // شما global editor را lexical گذاشته‌اید، پس همین کافیست
-    },
-    {
-      name: 'author',
-      type: 'relationship',
-      relationTo: 'users', // از کالکشن Users شما
-      admin: { position: 'sidebar' },
+      name: 'publishedAtJalali',
+      type: 'text',
+      label: 'تاریخ انتشار (شمسی)',
+      admin: { position: 'sidebar', readOnly: true },
+      hooks: {
+        afterRead: [
+          ({ data }) => {
+            const iso = data?.publishedAt
+            if (!iso) return undefined
+            // خروجی مثل 1403/07/25 - 10:30
+            return dayjs(iso).calendar('jalali').locale('fa').format('YYYY/MM/DD - HH:mm')
+          },
+        ],
+      },
     },
   ],
-  timestamps: true, // createdAt / updatedAt
+  timestamps: true,
 }
