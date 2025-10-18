@@ -24,6 +24,9 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS",
   },
+  "scripts": {
+    "migrate": "NODE_ENV=production CLOUDFLARE_ENV=production payload migrate"
+  },
   "d1_databases": [
     {
       "binding": "D1",
