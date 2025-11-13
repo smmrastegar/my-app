@@ -55,10 +55,11 @@ export default buildConfig({
   // database-adapter-config-end
   plugins: [
     // storage-adapter-placeholder
-    r2Storage({
-      bucket: cloudflare.env.R2,
-      collections: { media: true },
-    }),
+    // R2 storage disabled - enable R2 in Cloudflare Dashboard first
+    // r2Storage({
+    //   bucket: cloudflare.env.R2,
+    //   collections: { media: true },
+    // }),
   ],
 })
 

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 
-export default function ClientScripts() {
+export default function ClientScripts(): null {
   useEffect(() => {
     // Mobile menu toggle
     const header = document.querySelector('.site-header')
