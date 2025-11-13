@@ -18,6 +18,7 @@ export async function generateStaticParams() {
       },
     },
     limit: 100,
+    overrideAccess: false,
   })
 
   return posts.docs.map((post) => ({
@@ -40,6 +41,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       },
     },
     limit: 1,
+    overrideAccess: false,
   })
 
   if (posts.docs.length === 0) {

@@ -12,6 +12,7 @@ export default async function BlogPage() {
     limit: 100,
     where: { status: { equals: 'published' } },
     sort: '-publishedAt',
+    overrideAccess: false,
   })
 
   const icons = [

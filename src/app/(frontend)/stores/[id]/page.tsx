@@ -3,14 +3,16 @@ import config from '@/payload.config'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 
-export default async function StorePage({ params }: { params: { id: string } }) {
+export default async function StorePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params
   const payloadConfig = await config
   const payload = await getPayload({ config: payloadConfig })
 
   try {
     const store = await payload.findByID({
       collection: 'stores',
-      id: params.id,
+      id: id,
+      overrideAccess: false,
     })
 
     if (!store) {
@@ -26,7 +28,7 @@ export default async function StorePage({ params }: { params: { id: string } }) 
       'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
     ]
 
-    const iconIndex = parseInt(params.id) % iconPaths.length
+    const iconIndex = parseInt(id) % iconPaths.length
     const iconPath = iconPaths[iconIndex]
 
     return (

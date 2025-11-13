@@ -20,6 +20,7 @@ export default async function HomePage() {
     sort: '-publishedDate',
     limit: 8,
     depth: 1,
+    overrideAccess: false,
   })
 
   // Fetch stores
@@ -27,6 +28,7 @@ export default async function HomePage() {
     collection: 'stores',
     limit: 6,
     depth: 0,
+    overrideAccess: false,
   })
 
   return (
