@@ -68,8 +68,9 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
-    media: Media;
     posts: Post;
+    stores: Store;
+    media: Media;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -77,8 +78,9 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
+    stores: StoresSelect<false> | StoresSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -141,45 +143,13 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
- */
-export interface Media {
-  id: number;
-  alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-}
-/**
- * پست‌های بلاگ با بدنهٔ طولانی و گالری تصاویر
- *
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "posts".
  */
 export interface Post {
   id: number;
   title: string;
-  /**
-   * اگر خالی بماند از روی عنوان ساخته می‌شود
-   */
-  slug?: string | null;
-  excerpt: string;
-  heroImage?: (number | null) | Media;
-  gallery?:
-    | {
-        image: number | Media;
-        alt?: string | null;
-        caption?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  body: {
+  slug: string;
+  content: {
     root: {
       type: string;
       children: {
@@ -194,9 +164,46 @@ export interface Post {
     };
     [k: string]: unknown;
   };
-  status: 'draft' | 'published';
-  publishedAt?: string | null;
-  author?: (number | null) | User;
+  featuredImage?: (number | null) | Media;
+  author: number | User;
+  status: 'draft' | 'published' | 'archived';
+  publishedDate: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stores".
+ */
+export interface Store {
+  id: number;
+  name: string;
+  slug: string;
+  description: string;
+  logo?: (number | null) | Media;
+  coverImage?: (number | null) | Media;
+  status: 'coming_soon' | 'active' | 'inactive';
+  website?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  category?: ('grocery' | 'electronics' | 'clothing' | 'home' | 'other') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -212,12 +219,16 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
-      } | null)
-    | ({
         relationTo: 'posts';
         value: number | Post;
+      } | null)
+    | ({
+        relationTo: 'stores';
+        value: number | Store;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -285,6 +296,39 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts_select".
+ */
+export interface PostsSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  content?: T;
+  featuredImage?: T;
+  author?: T;
+  status?: T;
+  publishedDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "stores_select".
+ */
+export interface StoresSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  description?: T;
+  logo?: T;
+  coverImage?: T;
+  status?: T;
+  website?: T;
+  phone?: T;
+  address?: T;
+  category?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -298,30 +342,6 @@ export interface MediaSelect<T extends boolean = true> {
   filesize?: T;
   width?: T;
   height?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts_select".
- */
-export interface PostsSelect<T extends boolean = true> {
-  title?: T;
-  slug?: T;
-  excerpt?: T;
-  heroImage?: T;
-  gallery?:
-    | T
-    | {
-        image?: T;
-        alt?: T;
-        caption?: T;
-        id?: T;
-      };
-  body?: T;
-  status?: T;
-  publishedAt?: T;
-  author?: T;
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
