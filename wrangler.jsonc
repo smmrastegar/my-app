@@ -2,7 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "main": ".open-next/worker.js",
   "name": "nesilend",
-  "account_id": "01c0953d96dccfd6f313bc3b15cd508c",
+  "account_id": "f24f6857c2106b953b3a6ff05edea92c",
   "compatibility_date": "2025-08-15",
   "logpush": true,
   "observability": {
@@ -27,7 +27,7 @@
   "d1_databases": [
     {
       "binding": "D1",
-      "database_id": "626a4884-237d-43b6-900e-adf6f96f2cfc",
+      "database_id": "003c987f-1827-42e5-8381-8640b478aed6",
       "database_name": "nesilend-db",
     },
   ],
@@ -44,6 +44,11 @@
       "bucket_name": "nesilend-media",
     },
   ],
+
+  // Environment variables
+  "vars": {
+    "PAYLOAD_SECRET": "zAJxqYjp4UQquTGYS3Zvq2buDYX4aWMaDW9p2W5M6Bk="
+  },
 
   // Here's how to configure an additional environment
   // It can be deployed with `CLOUDFLARE_ENV=staging pnpm run deploy`

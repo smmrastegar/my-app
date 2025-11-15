@@ -67,11 +67,11 @@ export default async function BlogPage() {
               </div>
 
               <div className="nav-links">
-                <a href="/#guides">راهنما</a>
-                <a href="/#app">اپلیکیشن</a>
-                <a href="/#blog">بلاگ</a>
-                <a href="/#about">درباره ما</a>
-                <a href="/#stores">فروشگاه‌ها</a>
+                <Link href="/#guides">راهنما</Link>
+                <Link href="/#app">اپلیکیشن</Link>
+                <Link href="/#blog">بلاگ</Link>
+                <Link href="/#about">درباره ما</Link>
+                <Link href="/#stores">فروشگاه‌ها</Link>
                 <Link href="/">خانه</Link>
               </div>
 
