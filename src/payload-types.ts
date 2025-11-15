@@ -217,6 +217,14 @@ export interface Store {
     | 'receipt'
     | 'badge'
     | 'sparkles';
+  features?: {
+    creditPurchase?: boolean | null;
+    noInterest?: boolean | null;
+    fastApproval?: boolean | null;
+    freeDelivery?: boolean | null;
+    warranty?: boolean | null;
+    support247?: boolean | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -338,6 +346,16 @@ export interface StoresSelect<T extends boolean = true> {
   address?: T;
   category?: T;
   iconType?: T;
+  features?:
+    | T
+    | {
+        creditPurchase?: T;
+        noInterest?: T;
+        fastApproval?: T;
+        freeDelivery?: T;
+        warranty?: T;
+        support247?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

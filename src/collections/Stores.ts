@@ -116,6 +116,49 @@ export const Stores: CollectionConfig = {
       required: true,
       label: 'نوع آیکون',
     },
+    {
+      name: 'features',
+      type: 'group',
+      label: 'ویژگی‌های فروشگاه',
+      fields: [
+        {
+          name: 'creditPurchase',
+          type: 'checkbox',
+          label: '💳 خرید اعتباری',
+          defaultValue: true,
+        },
+        {
+          name: 'noInterest',
+          type: 'checkbox',
+          label: '💰 بدون سود',
+          defaultValue: true,
+        },
+        {
+          name: 'fastApproval',
+          type: 'checkbox',
+          label: '⚡ تایید سریع',
+          defaultValue: true,
+        },
+        {
+          name: 'freeDelivery',
+          type: 'checkbox',
+          label: '🚚 ارسال رایگان',
+          defaultValue: false,
+        },
+        {
+          name: 'warranty',
+          type: 'checkbox',
+          label: '🛡️ گارانتی اصالت',
+          defaultValue: false,
+        },
+        {
+          name: 'support247',
+          type: 'checkbox',
+          label: '📞 پشتیبانی 24/7',
+          defaultValue: false,
+        },
+      ],
+    },
   ],
 }
 
