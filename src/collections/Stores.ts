@@ -95,6 +95,27 @@ export const Stores: CollectionConfig = {
       required: false,
       label: 'دسته‌بندی',
     },
+    {
+      name: 'iconType',
+      type: 'select',
+      options: [
+        { value: 'cart', label: '🛒 سبد خرید' },
+        { value: 'store', label: '🏪 فروشگاه' },
+        { value: 'gift', label: '🎁 هدیه' },
+        { value: 'star', label: '⭐ ستاره' },
+        { value: 'credit-card', label: '💳 کارت اعتباری' },
+        { value: 'tag', label: '🏷️ برچسب' },
+        { value: 'package', label: '📦 بسته' },
+        { value: 'delivery', label: '🚚 تحویل' },
+        { value: 'wallet', label: '💰 کیف پول' },
+        { value: 'receipt', label: '🧾 رسید' },
+        { value: 'badge', label: '🎖️ نشان' },
+        { value: 'sparkles', label: '✨ درخشان' },
+      ],
+      defaultValue: 'store',
+      required: true,
+      label: 'نوع آیکون',
+    },
   ],
 }
 

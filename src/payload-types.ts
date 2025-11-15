@@ -204,6 +204,19 @@ export interface Store {
   phone?: string | null;
   address?: string | null;
   category?: ('grocery' | 'electronics' | 'clothing' | 'home' | 'other') | null;
+  iconType:
+    | 'cart'
+    | 'store'
+    | 'gift'
+    | 'star'
+    | 'credit-card'
+    | 'tag'
+    | 'package'
+    | 'delivery'
+    | 'wallet'
+    | 'receipt'
+    | 'badge'
+    | 'sparkles';
   updatedAt: string;
   createdAt: string;
 }
@@ -324,6 +337,7 @@ export interface StoresSelect<T extends boolean = true> {
   phone?: T;
   address?: T;
   category?: T;
+  iconType?: T;
   updatedAt?: T;
   createdAt?: T;
 }

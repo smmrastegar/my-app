@@ -2,6 +2,8 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import { StoreIcon } from '../../components/StoreIcons'
+import './store-detail.css'
 
 export default async function StorePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -19,55 +21,136 @@ export default async function StorePage({ params }: { params: Promise<{ id: stri
       notFound()
     }
 
-    const iconPaths = [
-      'M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z',
-      'M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z',
-      'M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z',
-      'M21 6.5l-9 7.07L3 6.5V5l9 7 9-7v1.5zM3 19V8.5l9 7 9-7V19H3z',
-      'M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z',
-      'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
-    ]
-
-    const iconIndex = parseInt(id) % iconPaths.length
-    const iconPath = iconPaths[iconIndex]
+    const isActive = store.status === 'active'
 
     return (
-      <>
-        <div className="store-detail-header">
-          <div className="container">
-            <Link href="/#stores" className="back-link">
-              ← بازگشت به فروشگاه‌ها
-            </Link>
-          </div>
-        </div>
+      <div className="store-detail-page">
+        <div className="store-detail-container">
+          <Link href="/stores" className="store-detail-back">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={2.5}
+              stroke="currentColor"
+              style={{ width: '20px', height: '20px' }}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            بازگشت به فروشگاه‌ها
+          </Link>
 
-        <section className="section store-detail">
-          <div className="container">
-            <div className="store-detail-content">
-              <div className="store-detail-icon">
-                <svg fill="currentColor" viewBox="0 0 24 24">
-                  <path d={iconPath} />
+          <div className="store-detail-card">
+            <div className="store-detail-icon-wrapper">
+              <StoreIcon iconType={store.iconType} />
+            </div>
+
+            <h1 className="store-detail-title">{store.name}</h1>
+
+            <div
+              className={`store-detail-status-badge ${isActive ? 'active' : 'coming-soon'}`}
+            >
+              {isActive ? (
+                <>
+                  <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  فعال
+                </>
+              ) : (
+                <>
+                  <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fillRule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                  در حال راه‌اندازی
+                </>
+              )}
+            </div>
+
+            <div className="store-detail-divider"></div>
+
+            <div className="store-detail-description">
+              {typeof store.description === 'string' ? (
+                <p>{store.description}</p>
+              ) : (
+                <p>
+                  این فروشگاه به زودی به شبکه نسی‌لند اضافه خواهد شد. صندوق‌های رفاهی می‌توانند به
+                  بهبود قدرت خرید کارکنان و افزایش رضایت شغلی آن‌ها کمک شایانی کنند.
+                </p>
+              )}
+            </div>
+
+            <div className="store-detail-info-grid">
+              <div className="store-detail-info-item">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                  />
                 </svg>
+                <h3>خرید اعتباری</h3>
+                <p>امکان خرید اقساطی با شرایط مناسب</p>
               </div>
-              <h1>{store.name}</h1>
-              <p className="store-detail-status">
-                {store.status === 'coming_soon'
-                  ? 'در حال راه‌اندازی'
-                  : store.status === 'active'
-                    ? 'فعال'
-                    : 'در حال راه‌اندازی'}
-              </p>
-              <div className="store-detail-description">
-                {typeof store.description === 'string' ? (
-                  <p>{store.description}</p>
-                ) : (
-                  <p>این فروشگاه به زودی به شبکه نسی‌لند اضافه خواهد شد.</p>
-                )}
+
+              <div className="store-detail-info-item">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <h3>بدون سود</h3>
+                <p>پرداخت اقساط بدون هیچ هزینه اضافی</p>
+              </div>
+
+              <div className="store-detail-info-item">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <h3>تایید سریع</h3>
+                <p>دریافت اعتبار در کمتر از ۲۴ ساعت</p>
               </div>
             </div>
+
+            <div className="store-detail-action">
+              <a href="https://app.nesilend.ir/" className="store-detail-btn store-detail-btn-primary">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" style={{ width: '20px', height: '20px' }}>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
+                  />
+                </svg>
+                شروع خرید
+              </a>
+              <Link href="/" className="store-detail-btn store-detail-btn-secondary">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2" style={{ width: '20px', height: '20px' }}>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                  />
+                </svg>
+                بازگشت به صفحه اصلی
+              </Link>
+            </div>
           </div>
-        </section>
-      </>
+        </div>
+      </div>
     )
   } catch (error) {
     console.error('Error fetching store:', error)

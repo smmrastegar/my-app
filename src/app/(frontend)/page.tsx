@@ -3,6 +3,7 @@ import config from '@/payload.config'
 // import type { Post, Store } from '@/payload-types'
 import Link from 'next/link'
 import ClientScripts from './ClientScripts'
+import { StoreIcon } from './components/StoreIcons'
 import './styles.css'
 
 export default async function HomePage() {
@@ -313,22 +314,11 @@ export default async function HomePage() {
 
           <div className="grid stores-grid">
             {stores.docs.length > 0 ? (
-              stores.docs.map((store, index) => {
-                const iconPaths = [
-                  'M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z',
-                  'M12 2l-5.5 9h11L12 2zm0 3.84L13.93 9h-3.87L12 5.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 7c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5zM3 21.5h8v-8H3v8zm2-6h4v4H5v-4z',
-                  'M19 3H5c-1.11 0-2 .89-2 2v14a2 2 0 002 2h14a2 2 0 002-2V5a2 2 0 00-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z',
-                  'M21 6.5l-9 7.07L3 6.5V5l9 7 9-7v1.5zM3 19V8.5l9 7 9-7V19H3z',
-                  'M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z',
-                  'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
-                ]
-                const iconPath = iconPaths[index % iconPaths.length]
+              stores.docs.map((store) => {
                 return (
                   <Link key={store.id} href={`/stores/${store.id}`} className="store-card">
                     <div className="store-icon">
-                      <svg fill="currentColor" viewBox="0 0 24 24">
-                        <path d={iconPath} />
-                      </svg>
+                      <StoreIcon iconType={store.iconType} />
                     </div>
                     <h3>{store.name}</h3>
                     <p className="store-status">
@@ -349,28 +339,20 @@ export default async function HomePage() {
             ) : (
               <>
                 {[
-                  { name: 'فروشگاه یک', icon: 0 },
-                  { name: 'فروشگاه دو', icon: 1 },
-                  { name: 'فروشگاه سه', icon: 2 },
-                  { name: 'فروشگاه شش', icon: 3 },
-                  { name: 'فروشگاه پنج', icon: 4 },
-                  { name: 'فروشگاه چهار', icon: 5 },
+                  { name: 'فروشگاه یک', icon: 'cart' },
+                  { name: 'فروشگاه دو', icon: 'store' },
+                  { name: 'فروشگاه سه', icon: 'gift' },
+                  { name: 'فروشگاه چهار', icon: 'star' },
+                  { name: 'فروشگاه پنج', icon: 'credit-card' },
+                  { name: 'فروشگاه شش', icon: 'tag' },
+                  { name: 'فروشگاه هفت', icon: 'package' },
+                  { name: 'فروشگاه هشت', icon: 'delivery' },
+                  { name: 'فروشگاه نه', icon: 'wallet' },
                 ].map((item, index) => {
-                  const iconPaths = [
-                    'M20 6h-2.18c.11-.31.18-.65.18-1a2.996 2.996 0 00-5.5-1.65l-.5.67-.5-.68C10.96 2.54 10.05 2 9 2 7.34 2 6 3.34 6 5c0 .35.07.69.18 1H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-5-2c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zM9 4c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm11 15H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.36 1 1.36L15.38 12 17 10.83 14.92 8H20v6z',
-                    'M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z',
-                    'M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z',
-                    'M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z',
-                    'M21 6.5l-9 7.07L3 6.5V5l9 7 9-7v1.5zM3 19V8.5l9 7 9-7V19H3z',
-                    'M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z',
-                  ]
-                  const iconPath = iconPaths[item.icon]
                   return (
                     <div key={index} className="store-card">
                       <div className="store-icon">
-                        <svg fill="currentColor" viewBox="0 0 24 24">
-                          <path d={iconPath} />
-                        </svg>
+                        <StoreIcon iconType={item.icon} />
                       </div>
                       <h3>{item.name}</h3>
                       <p className="store-status">در حال راه‌اندازی</p>
@@ -380,6 +362,12 @@ export default async function HomePage() {
                 })}
               </>
             )}
+          </div>
+
+          <div style={{ textAlign: 'center', marginTop: '48px' }}>
+            <Link href="/stores" className="btn btn-primary">
+              مشاهده همه فروشگاه‌ها
+            </Link>
           </div>
         </div>
       </section>
@@ -394,7 +382,7 @@ export default async function HomePage() {
 
           <div className="grid blog-grid">
             {posts.docs.length > 0 ? (
-              posts.docs.slice(0, 4).map((post, index) => {
+              posts.docs.slice(0, 8).map((post, index) => {
                 const icons = [
                   'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
                   'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z',
@@ -450,6 +438,22 @@ export default async function HomePage() {
                     title: 'مسئله به وجود آمدن لندتک‌ها',
                     desc: 'بررسی دلایل ظهور و رشد پلتفرم‌های وام‌دهی دیجیتال در دنیا',
                   },
+                  {
+                    title: 'راهنمای خرید اعتباری',
+                    desc: 'آشنایی با مزایا و چالش‌های خرید اعتباری و نکات مهم',
+                  },
+                  {
+                    title: 'مدیریت بودجه خانواده',
+                    desc: 'روش‌های عملی برای برنامه‌ریزی مالی و کنترل هزینه‌ها',
+                  },
+                  {
+                    title: 'فین‌تک و آینده بانکداری',
+                    desc: 'نقش تکنولوژی در تحول خدمات بانکی و مالی',
+                  },
+                  {
+                    title: 'سرمایه‌گذاری هوشمند',
+                    desc: 'آشنایی با روش‌های نوین سرمایه‌گذاری و کاهش ریسک',
+                  },
                 ].map((item, index) => {
                   const icons = [
                     'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z',
@@ -481,13 +485,11 @@ export default async function HomePage() {
             )}
           </div>
 
-          {posts.docs.length > 4 && (
-            <div style={{ textAlign: 'center', marginTop: '48px' }}>
-              <Link href="/blog" className="btn btn-primary">
-                مشاهده همه مطالب
-              </Link>
-            </div>
-          )}
+          <div style={{ textAlign: 'center', marginTop: '48px' }}>
+            <Link href="/blog" className="btn btn-primary">
+              مشاهده همه مطالب
+            </Link>
+          </div>
         </div>
       </section>
 

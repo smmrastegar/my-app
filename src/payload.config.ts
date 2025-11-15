@@ -34,12 +34,12 @@ export default buildConfig({
   },
   cors: ['*', 'null'],
   collections: [
-    Users, 
-    //Categories, 
-    Posts, 
+    Users,
+    //Categories,
+    Posts,
     Stores,
-    //Tags, 
-    Media, 
+    //Tags,
+    Media,
     //Pages
   ],
   editor: lexicalEditor(),
@@ -48,18 +48,17 @@ export default buildConfig({
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   // database-adapter-config-start
-  db: sqliteD1Adapter({ 
+  db: sqliteD1Adapter({
     binding: cloudflare.env.D1,
     push: false, // Disable auto schema sync - use migrations instead
   }),
   // database-adapter-config-end
   plugins: [
     // storage-adapter-placeholder
-    // R2 storage disabled - enable R2 in Cloudflare Dashboard first
-    // r2Storage({
-    //   bucket: cloudflare.env.R2,
-    //   collections: { media: true },
-    // }),
+    r2Storage({
+      bucket: cloudflare.env.R2,
+      collections: { media: true },
+    }),
   ],
 })
 
