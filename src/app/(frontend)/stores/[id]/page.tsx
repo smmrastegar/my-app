@@ -2,7 +2,6 @@ import { getPayload } from 'payload'
 import config from '@/payload.config'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
-import { StoreIcon } from '../../components/StoreIcons'
 import './store-detail.css'
 
 export default async function StorePage({ params }: { params: Promise<{ id: string }> }) {
@@ -42,7 +41,9 @@ export default async function StorePage({ params }: { params: Promise<{ id: stri
 
           <div className="store-detail-card">
             <div className="store-detail-icon-wrapper">
-              <StoreIcon iconType={store.iconType} />
+              <svg fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+              </svg>
             </div>
 
             <h1 className="store-detail-title">{store.name}</h1>
@@ -89,83 +90,95 @@ export default async function StorePage({ params }: { params: Promise<{ id: stri
             </div>
 
             <div className="store-detail-features">
-              {(store.features?.creditPurchase ?? true) && (
-                <div className="store-feature-badge" title="خرید اعتباری">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
-                    />
-                  </svg>
-                  <span>خرید اعتباری</span>
-                </div>
-              )}
+              <div
+                className={`store-feature-badge ${
+                  store.features?.creditPurchase ?? true ? 'active' : 'disabled'
+                }`}
+                title="خرید اعتباری"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+                  />
+                </svg>
+                <span>خرید اعتباری</span>
+              </div>
 
-              {(store.features?.noInterest ?? true) && (
-                <div className="store-feature-badge" title="بدون سود">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  <span>بدون سود</span>
-                </div>
-              )}
+              <div
+                className={`store-feature-badge ${
+                  store.features?.noInterest ?? true ? 'active' : 'disabled'
+                }`}
+                title="بدون سود"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>بدون سود</span>
+              </div>
 
-              {(store.features?.fastApproval ?? true) && (
-                <div className="store-feature-badge" title="تایید سریع">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M13 10V3L4 14h7v7l9-11h-7z"
-                    />
-                  </svg>
-                  <span>تایید سریع</span>
-                </div>
-              )}
+              <div
+                className={`store-feature-badge ${
+                  store.features?.fastApproval ?? true ? 'active' : 'disabled'
+                }`}
+                title="تایید سریع"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13 10V3L4 14h7v7l9-11h-7z"
+                  />
+                </svg>
+                <span>تایید سریع</span>
+              </div>
 
-              {store.features?.freeDelivery && (
-                <div className="store-feature-badge" title="ارسال رایگان">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
-                    />
-                  </svg>
-                  <span>ارسال رایگان</span>
-                </div>
-              )}
+              <div
+                className={`store-feature-badge ${store.features?.freeDelivery ? 'active' : 'disabled'}`}
+                title="ارسال رایگان"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
+                  />
+                </svg>
+                <span>ارسال رایگان</span>
+              </div>
 
-              {store.features?.warranty && (
-                <div className="store-feature-badge" title="گارانتی اصالت">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                    />
-                  </svg>
-                  <span>گارانتی اصالت</span>
-                </div>
-              )}
+              <div
+                className={`store-feature-badge ${store.features?.warranty ? 'active' : 'disabled'}`}
+                title="گارانتی اصالت"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                  />
+                </svg>
+                <span>گارانتی اصالت</span>
+              </div>
 
-              {store.features?.support247 && (
-                <div className="store-feature-badge" title="پشتیبانی 24/7">
-                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
-                    />
-                  </svg>
-                  <span>پشتیبانی 24/7</span>
-                </div>
-              )}
+              <div
+                className={`store-feature-badge ${store.features?.support247 ? 'active' : 'disabled'}`}
+                title="پشتیبانی 24/7"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
+                  />
+                </svg>
+                <span>پشتیبانی 24/7</span>
+              </div>
             </div>
 
             <div className="store-detail-action">

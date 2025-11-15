@@ -3,7 +3,6 @@ import config from '@/payload.config'
 // import type { Post, Store } from '@/payload-types'
 import Link from 'next/link'
 import ClientScripts from './ClientScripts'
-import { StoreIcon } from './components/StoreIcons'
 import './styles.css'
 
 export default async function HomePage() {
@@ -318,7 +317,9 @@ export default async function HomePage() {
                 return (
                   <Link key={store.id} href={`/stores/${store.id}`} className="store-card">
                     <div className="store-icon">
-                      <StoreIcon iconType={store.iconType} />
+                      <svg fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                      </svg>
                     </div>
                     <h3>{store.name}</h3>
                     <p className="store-status">
@@ -339,22 +340,24 @@ export default async function HomePage() {
             ) : (
               <>
                 {[
-                  { name: 'فروشگاه یک', icon: 'cart' },
-                  { name: 'فروشگاه دو', icon: 'store' },
-                  { name: 'فروشگاه سه', icon: 'gift' },
-                  { name: 'فروشگاه چهار', icon: 'star' },
-                  { name: 'فروشگاه پنج', icon: 'credit-card' },
-                  { name: 'فروشگاه شش', icon: 'tag' },
-                  { name: 'فروشگاه هفت', icon: 'package' },
-                  { name: 'فروشگاه هشت', icon: 'delivery' },
-                  { name: 'فروشگاه نه', icon: 'wallet' },
-                ].map((item, index) => {
+                  'فروشگاه یک',
+                  'فروشگاه دو',
+                  'فروشگاه سه',
+                  'فروشگاه چهار',
+                  'فروشگاه پنج',
+                  'فروشگاه شش',
+                  'فروشگاه هفت',
+                  'فروشگاه هشت',
+                  'فروشگاه نه',
+                ].map((name, index) => {
                   return (
                     <div key={index} className="store-card">
                       <div className="store-icon">
-                        <StoreIcon iconType={item.icon} />
+                        <svg fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
+                        </svg>
                       </div>
-                      <h3>{item.name}</h3>
+                      <h3>{name}</h3>
                       <p className="store-status">در حال راه‌اندازی</p>
                       <p className="store-desc">فروشگاه‌های همکار به زودی معرفی خواهند شد</p>
                     </div>

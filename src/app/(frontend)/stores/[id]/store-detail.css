@@ -181,11 +181,29 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.store-feature-badge:hover {
+.store-feature-badge.active {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border-color: #e9ecef;
+  color: #495057;
+}
+
+.store-feature-badge.active:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
   border-color: #667eea;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+}
+
+.store-feature-badge.disabled {
+  background: #f1f3f5;
+  border-color: #dee2e6;
+  color: #adb5bd;
+  opacity: 0.6;
+}
+
+.store-feature-badge.disabled:hover {
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .store-feature-badge svg {
@@ -193,6 +211,15 @@
   height: 20px;
   color: #667eea;
   flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.store-feature-badge.active svg {
+  color: #667eea;
+}
+
+.store-feature-badge.disabled svg {
+  color: #adb5bd;
 }
 
 .store-feature-badge span {
